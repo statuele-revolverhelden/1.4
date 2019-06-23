@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+@using System.Data;
+@using XmlCrud.App_Code;
+
+@{
+    SongMethods mySongMethods = Session["playlistClass"] as SongMethods;
+    string file = Session["file"] as string;
+}
+<html>
+<head>
+</head>
+<body>
+
+    <form method="post">
+        <h1>Liedje Toevoegen</h1>
+        ID :<input type="text" id="id" />
+        <br />
+        Artiest :<input type="text" id="artist" />
+        <br />
+        Titel :<input type="text" id="title" />
+        <br />
+        Jaar :<input type="text" id="year" />
+        <br />
+        Genre :<input type="text" id="genre" />
+        <br />
+        Tijd :<input type="text" id="time" />
+        <br />
+        File :<input type="text" id="file" />
+        <br />
+        <input type="submit" name="Save" id="btnSubmit" />
+    </form>  
+
+
+    @if (IsPost)
+    {
+        DataRow dr = mySongMethods.GetEmptyDataRow();
+
+        dr[0] = Request.Form["id"];
+        dr[1] = Request.Form["artist"];
+        dr[2] = Request.Form["title"];
+        dr[3] = Request.Form["year"];
+        dr[4] = Request.Form["genre"];
+        dr[5] = Request.Form["time"];
+        dr[6] = Request.Form["file"];
+
+        mySongMethods.CreateSong(dr, file);
+        Response.Redirect(@"~/index.cshtml");
+    }
+</body>
+</html>
